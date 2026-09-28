@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creative Style ROAS Review</title>
+<meta name="description" content="Ad creative performance by generation style and channel: ROAS, CTR, conversion, and fatigue, which styles to scale or retire, and what reallocating budget does to blended ROAS. Synthetic data, candidate work sample.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <a class="brandmark" href="https://vishal-kumar-portfolio-six.vercel.app" target="_blank" rel="noopener"><span class="dot"></span>VISHAL KUMAR</a>
+    <a class="pill-link" href="https://github.com/vishalkumarhere/higgsfield-ads-roas-demo" target="_blank" rel="noopener">View source on GitHub &#8599;</a>
+  </div>
+
+  <header>
+    <div class="eyebrow-row">
+      <span class="eyebrow">Ads analytics, creative ranking</span>
+      <span class="eyebrow warn">Synthetic data</span>
+    </div>
+    <h1 class="title">Which generated creative styles actually earn their spend</h1>
+    <p class="lede">Thirty days of paid social spend on AI generated ad creatives, broken down by generation style and channel. It separates styles that win the click from styles that win the sale, flags where fatigue is eating returns, and sizes what moving budget out of below floor styles would do to blended ROAS. The same cohort signals are what an ad ranking model would learn from when deciding which style to recommend to an advertiser.</p>
+    <div class="banner" role="note"><span class="ic">NOTE</span><span>Illustrative data modeled on Higgsfield AI's public product structure. Not a real customer's or the company's actual data. Built by Vishal Kumar as a candidate work sample, not an official Higgsfield AI artifact.</span></div>
+  </header>
+
+  <section>
+    <div class="controls" aria-label="Dashboard filters">
+      <div class="control">
+        <span class="label" id="lblChannel">Channel</span>
+        <div class="pill-toggle" id="channelToggle" role="group" aria-labelledby="lblChannel"></div>
+      </div>
+      <div class="control">
+        <span class="label" id="lblMetric">Chart metric</span>
+        <div class="pill-toggle" id="metricToggle" role="group" aria-labelledby="lblMetric"></div>
+      </div>
+      <div class="control">
+        <label class="label" for="floor">ROAS floor</label>
+        <div class="slider-row">
+          <input type="range" id="floor" min="0.8" max="2.6" step="0.05" value="1.5">
+          <span class="kval" id="floorVal">1.50x</span>
+        </div>
+        <div class="hint">Minimum revenue per dollar of spend a style must return to keep its budget. Styles below it are flagged everywhere on the page.</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="stat-grid" id="kpis"></div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-head">
+          <div><div class="panel-title" id="barTitle">ROAS by creative style</div><div class="panel-sub" id="barSub"></div></div>
+        </div>
+        <div class="chart-wrap" id="barChart"></div>
+        <div class="legend" id="barLegend"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <div><div class="panel-title">Winning the click is not winning the sale</div><div class="panel-sub">Click through rate against ROAS, bubble size is spend</div></div>
+        </div>
+        <div class="chart-wrap" id="scatter"></div>
+        <div class="legend"><span><i class="sw c1 dot"></i>At or above floor</span><span><i class="sw c2 dot"></i>Below floor</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="panel">
+      <div class="panel-head">
+        <div><div class="panel-title">Creative styles ranked by revenue at risk</div><div class="panel-sub">Revenue at risk is spend on a below floor style times its shortfall to the floor. Click a header to sort.</div></div>
+      </div>
+      <div class="table-scroll">
+        <table id="rankTable">
+          <thead><tr>
+            <th class="num" data-col="rank">#<span class="arr"></span></th>
+            <th data-col="name">Creative style<span class="arr"></span></th>
+            <th class="num" data-col="spend">Spend<span class="arr"></span></th>
+            <th class="num" data-col="ctr">CTR<span class="arr"></span></th>
+            <th class="num" data-col="cvr">CVR<span class="arr"></span></th>
+            <th class="num" data-col="roas">ROAS<span class="arr"></span></th>
+            <th class="num" data-col="decay">Wk 1 to 4 decay<span class="arr"></span></th>
+            <th data-col="action">Recommended action<span class="arr"></span></th>
+          </tr></thead>
+          <tbody id="rankBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="grid-2b">
+      <div class="panel">
+        <div class="panel-head"><div class="panel-title">Findings</div></div>
+        <div class="findings" id="findings"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div class="panel-title">Action plan, in priority order</div></div>
+        <ol class="actions" id="actions"></ol>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="panel">
+      <div class="panel-head">
+        <div><div class="panel-title">Decision impact: how much budget to move out of below floor styles</div><div class="panel-sub">Spend is pulled from below floor styles and put into Scale styles in proportion to their current spend, with a slice held for testing new styles.</div></div>
+      </div>
+      <div class="impact-grid">
+        <div class="impact-controls">
+          <div>
+            <label class="label" for="realloc">Below floor spend reallocated</label>
+            <div class="slider-row"><input type="range" id="realloc" min="0" max="100" step="5" value="60"><span class="kval" id="reallocVal">60%</span></div>
+            <div class="hint" id="reallocList"></div>
+          </div>
+          <div>
+            <label class="label" for="eff">Marginal efficiency on scaled styles</label>
+            <div class="slider-row"><input type="range" id="eff" min="40" max="100" step="5" value="75"><span class="kval" id="effVal">75%</span></div>
+            <div class="hint">Extra spend rarely earns a style's average ROAS. 75% means each new dollar returns three quarters of it.</div>
+          </div>
+          <div>
+            <label class="label" for="test">Held for testing new styles</label>
+            <div class="slider-row"><input type="range" id="test" min="0" max="40" step="5" value="15"><span class="kval" id="testVal">15%</span></div>
+          </div>
+          <div class="impact-out" id="impactOut"></div>
+        </div>
+        <div>
+          <div class="label" style="margin-bottom:8px;">Projected blended ROAS by share of below floor spend moved</div>
+          <div class="chart-wrap" id="curve"></div>
+          <p class="assume" id="assume"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    Built by Vishal Kumar as a candidate work sample for the Machine Learning Engineer, Ads role. The framing comes from direct paid media optimization experience at IncBud, running ROAS driven budget and creative decisions for fashion clients, not just a modeling exercise. All spend, click, conversion, and revenue figures are synthetic, shaped like ad platform exports by creative style and channel, and generated deterministically in <span class="mono">app.js</span>. Every number on the page is computed live from the same style and channel table.
+    <br>Source on <a href="https://github.com/vishalkumarhere/higgsfield-ads-roas-demo" target="_blank" rel="noopener">GitHub</a>. Portfolio at <a href="https://vishal-kumar-portfolio-six.vercel.app" target="_blank" rel="noopener">vishal-kumar-portfolio-six.vercel.app</a>.
+  </footer>
+
+</div>
+<script src="charts.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
